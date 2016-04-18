@@ -1,0 +1,31 @@
+﻿@{
+  Layout = null;
+}
+@model PdmWebClient.Models.UptimeMachineSetupModel
+
+<!DOCTYPE html>
+<html manifest="app-cache-manifest">
+<head>
+  <meta name="viewport" content="width=device-width" />
+  <title>Index</title>
+
+  <script src="~/bundles/jquery"></script>
+  <script src="~/Client/_generated.js?v=@(this.Model.SystemVersion)"></script>
+
+  <link rel="stylesheet" href="~/Content/css" />
+</head>
+<body>
+
+  <h1>Uptime Machine SMB2212</h1>
+  <h2>System Version @(this.Model.SystemVersion)</h2>
+  <div id="currentValue">Waiting for refresh...</div>
+
+  <script type="text/javascript">
+    var getValuesPollingUrl = "@(this.Model.GetValuesPollingUrl)";
+    var tagId = "@(this.Model.TagId)";
+    var systemVersion = @(this.Model.SystemVersion);
+    var uptimeMachineService = new App.UptimeMachineService(getValuesPollingUrl, tagId, systemVersion, $("#currentValue"));
+  </script>
+
+</body>
+</html>
