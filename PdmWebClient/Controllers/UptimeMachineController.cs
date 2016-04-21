@@ -12,9 +12,19 @@ namespace PdmWebClient.Controllers
   [RoutePrefix(Constants.RoutePrefix)]
   public class UptimeMachineController : Controller
   {
-    // Toto sa inkrementuje vždy, keď sa mení logika či už na klientovi (Client/UptimeMachine.ts)
-    // alebo na serveri.
-    private const int CurrentSystemVersion = 20;
+    private static int CurrentSystemVersion
+    {
+      get
+      {
+        string currentVersionString = System.Configuration.ConfigurationManager.AppSettings["CurrentSystemVersion"];
+        int currentVersion;
+        if (!int.TryParse(currentVersionString, out currentVersion))
+        {
+          currentVersion = 1;
+        }
+        return currentVersion;
+      }
+    }
 
 
     /// <summary>
@@ -31,7 +41,13 @@ namespace PdmWebClient.Controllers
       string hostIP = this.Request.UserHostAddress;
       string hostName = this.Request.UserHostName;
 
-      var model = new UptimeMachineSetupModel(getValuesPollingUrl: basePollingUrl, tagId: hostIP, systemVersion: CurrentSystemVersion);
+      var model = new UptimeMachineSetupModel(
+        getValuesPollingUrl: basePollingUrl, 
+        tagId: hostIP, 
+        systemVersion: CurrentSystemVersion,
+        versionedCssUrl: this.GenerateVersionedCssUrl(),
+        versionedJavaScriptUrl: this.GenerateVersionedJavaScriptUrl());
+
       return this.View("Index", model);
     }
 
@@ -59,7 +75,7 @@ namespace PdmWebClient.Controllers
         EffectivityHistory = dataPoints
       };
       var model = new UptimeMachineDataModel(data: data, systemVersion: CurrentSystemVersion);
-      
+
       // Vraciame explicitne JSON.
       return this.Json(model, JsonRequestBehavior.AllowGet);
     }
@@ -70,7 +86,7 @@ namespace PdmWebClient.Controllers
     /// </summary>
     [Route(Constants.GetAppCacheManifestRoute), HttpGet()]
     public ActionResult GetAppCacheManifest()
-    {  
+    {
       string manifestText = string.Format(
 @"CACHE MANIFEST
 # SystemVersion {0} - forces refreshing the app cache 
@@ -81,19 +97,37 @@ namespace PdmWebClient.Controllers
 NETWORK:
 *
 ",
-        
+
         CurrentSystemVersion,
-        this.GenerateContentUrl("bundles/jquery"), 
-        this.GenerateContentUrl("Client/_generated.js?v=" + CurrentSystemVersion.ToString()), 
-        this.GenerateContentUrl("Content/css"));
+        this.GenerateContentUrl("bundles/jquery"),
+        this.GenerateVersionedCssUrl(),
+        this.GenerateVersionedJavaScriptUrl());
 
       return this.Content(manifestText, Constants.AppCacheManifestContentType, System.Text.Encoding.UTF8);
+    }
+
+
+    private string GenerateVersionedCssUrl()
+    {
+      return this.GenerateVersionedContentUrl("Content/site.css");
+    }
+
+
+    private string GenerateVersionedJavaScriptUrl()
+    {
+      return this.GenerateVersionedContentUrl("Client/_generated.js");
     }
 
 
     private string GenerateContentUrl(string path)
     {
       return UrlHelper.GenerateContentUrl("~/" + path, this.HttpContext);
+    }
+
+
+    private string GenerateVersionedContentUrl(string path)
+    {
+      return this.GenerateContentUrl(path + "?v=" + CurrentSystemVersion.ToString());
     }
 
 

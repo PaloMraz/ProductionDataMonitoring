@@ -13,7 +13,7 @@ module App {
 
       $.ajaxSettings.cache = false;
 
-      this._setIntervalHandle = setInterval(() => this.onTimer(), 5000);
+      this._setIntervalHandle = setInterval(() => this.onTimer(), 2000);
     }
 
 
@@ -33,9 +33,9 @@ module App {
         let currentDate = new Date(data.CurrentTimeUnixMilliseconds);
         let currentEffectivityValue: number = data.CurrentEffectivity;
         this._displayElement.text(
-          `Current Date: ${currentDate.toLocaleDateString()},
-          time: ${currentDate.toLocaleTimeString()},
-          Value: ${currentEffectivityValue}`);
+          `CURRENT DATE: ${currentDate.toLocaleDateString()},
+          AND TIME: ${currentDate.toLocaleTimeString()},
+          CURRENT VALUE: ${currentEffectivityValue}`);
       }
     }
 

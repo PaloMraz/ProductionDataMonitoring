@@ -10,14 +10,14 @@
   <title>Index</title>
 
   <script src="~/bundles/jquery"></script>
-  <script src="~/Client/_generated.js?v=@(this.Model.SystemVersion)"></script>
 
-  <link rel="stylesheet" href="~/Content/css" />
+  <script src="@(this.Model.VersionedJavaScriptUrl)"></script>
+  <link rel="stylesheet" href="@(this.Model.VersionedCssUrl)" />
 </head>
 <body>
 
-  <h1>Uptime Machine SMB2212</h1>
-  <h2>System Version @(this.Model.SystemVersion)</h2>
+  <h1>Uptime Machine SMB2212 - Main Page</h1>
+  <h2>Current System Version @(this.Model.SystemVersion)</h2>
   <div id="currentValue">Waiting for refresh...</div>
 
   <script type="text/javascript">

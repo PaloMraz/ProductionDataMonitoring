@@ -10,7 +10,7 @@ var App;
             this._systemVersion = _systemVersion;
             this._displayElement = _displayElement;
             $.ajaxSettings.cache = false;
-            this._setIntervalHandle = setInterval(function () { return _this.onTimer(); }, 5000);
+            this._setIntervalHandle = setInterval(function () { return _this.onTimer(); }, 2000);
         }
         UptimeMachineService.prototype.onTimer = function () {
             var _this = this;
@@ -25,7 +25,7 @@ var App;
             else {
                 var currentDate = new Date(data.CurrentTimeUnixMilliseconds);
                 var currentEffectivityValue = data.CurrentEffectivity;
-                this._displayElement.text("Current Date: " + currentDate.toLocaleDateString() + ",\n          time: " + currentDate.toLocaleTimeString() + ",\n          Value: " + currentEffectivityValue);
+                this._displayElement.text("CURRENT DATE: " + currentDate.toLocaleDateString() + ",\n          AND TIME: " + currentDate.toLocaleTimeString() + ",\n          CURRENT VALUE: " + currentEffectivityValue);
             }
         };
         UptimeMachineService.prototype.processError = function (xhr, textStatus, errorThrown) {

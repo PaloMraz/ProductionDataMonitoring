@@ -151,6 +151,7 @@
     <Content Include="Scripts\flot\jquery.flot.time.min.js" />
     <Content Include="Views\web.config" />
     <Content Include="Scripts\jquery-2.2.3.min.map" />
+    <None Include="Properties\PublishProfiles\pdmsample.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

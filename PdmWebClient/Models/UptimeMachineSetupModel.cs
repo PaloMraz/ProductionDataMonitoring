@@ -10,11 +10,18 @@ namespace PdmWebClient.Models
   public class UptimeMachineSetupModel
   {
 
-    public UptimeMachineSetupModel(string getValuesPollingUrl, string tagId, int systemVersion)
+    public UptimeMachineSetupModel(
+      string getValuesPollingUrl, 
+      string tagId, 
+      int systemVersion,
+      string versionedCssUrl,
+      string versionedJavaScriptUrl)
     {
       this.GetValuesPollingUrl = getValuesPollingUrl;
       this.TagId = tagId;
       this.SystemVersion = systemVersion;
+      this.VersionedCssUrl = versionedCssUrl;
+      this.VersionedJavaScriptUrl = versionedJavaScriptUrl;
     }
 
 
@@ -24,5 +31,10 @@ namespace PdmWebClient.Models
     public string GetValuesPollingUrl { get; private set; }
 
     public int SystemVersion { get; private set; }
+
+    public string VersionedCssUrl { get; private set; }
+
+    public string VersionedJavaScriptUrl { get; private set; }
+
   }
 }

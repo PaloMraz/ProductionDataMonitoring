@@ -4,5 +4,6 @@
 
 
 h1 {
-  color: navy;
+  color: aquamarine;
+  border: 2px solid orange;
 }
